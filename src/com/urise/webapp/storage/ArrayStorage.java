@@ -8,7 +8,8 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
 
-    private final Resume[] storage = new Resume[10000];
+    private final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
@@ -17,22 +18,22 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size < storage.length && !checkAvailability(r.getUuid())) {
-            storage[size] = r;
-            size++;
-
+        int index = getIndex(r.getUuid());
+        if (checkAvailability(index)) {
+            System.out.println(
+                "\nSave ERROR: resume with uuid \"" + r.getUuid() + "\" is already there");
         } else if (size == storage.length) {
             System.out.println("\nERROR: resume array is full");
         } else {
-            System.out.println(
-                "\nSave ERROR: resume with uuid \"" + r.getUuid() + "\" is already there");
+            storage[size] = r;
+            size++;
         }
     }
 
     public void update(Resume r) {
-        if (checkAvailability(r.getUuid())) {
-            storage[getPosition(r.getUuid())] = r;
-//            System.out.println("resume with uuid \"" + r.getUuid() + "\" is update");
+        int index = getIndex(r.getUuid());
+        if (checkAvailability(index)) {
+            storage[index] = r;
         } else {
             System.out.println(
                 "\nUpdate ERROR: resume with uuid \"" + r.getUuid() + "\" is missing");
@@ -40,16 +41,18 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (checkAvailability(uuid)) {
-            return storage[getPosition(uuid)];
+        int index = getIndex(uuid);
+        if (checkAvailability(index)) {
+            return storage[index];
         }
         System.out.println("\nGet ERROR: resume with uuid \"" + uuid + "\" is missing");
         return null;
     }
 
     public void delete(String uuid) {
-        if (checkAvailability(uuid)) {
-            storage[getPosition(uuid)] = storage[size - 1];
+        int index = getIndex(uuid);
+        if (checkAvailability(index)) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         } else {
@@ -68,7 +71,7 @@ public class ArrayStorage {
         return size;
     }
 
-    private int getPosition(String uuid) {
+    private int getIndex(String uuid) {
         int i;
         for (i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
@@ -78,7 +81,7 @@ public class ArrayStorage {
         return i;
     }
 
-    private boolean checkAvailability(String uuid) {
-        return getPosition(uuid) != size;
+    private boolean checkAvailability(int index) {
+        return index != size;
     }
 }
