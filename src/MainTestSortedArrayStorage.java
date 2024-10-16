@@ -46,6 +46,7 @@ public class MainTestSortedArrayStorage {
         //Check delete()
         ARRAY_STORAGE.delete(r1.getUuid());
         ARRAY_STORAGE.delete(r1.getUuid());
+        ARRAY_STORAGE.delete(r9.getUuid());
         printAll();
 
         //Check update()

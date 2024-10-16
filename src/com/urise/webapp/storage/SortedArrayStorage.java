@@ -11,22 +11,19 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveResume(Resume r) {
-        int index = -Arrays.binarySearch(storage, 0, size, r) - 1;
-        for (int i = size; i > index; i--) {
-            storage[i] = storage[i - 1];
-        }
-        storage[index] = new Resume(r.getUuid());
+    protected void insertResume(int index, Resume r) {
+        int indexSet = -index - 1;
+        int numOffset = size - indexSet;
+        System.arraycopy(storage, indexSet, storage, indexSet + 1, numOffset);
+        storage[indexSet] = r;
 
     }
 
     @Override
-    protected void deleteResume(String uuid) {
-        int index = getIndex(uuid);
-        for (int i = index; i < size - 1; i++) {
-            storage[i] = storage[i + 1];
-        }
-        storage[size-1] = null;
+    protected void extractResume(int index) {
+        int numOffset = size - index - 1;
+        System.arraycopy(storage, index + 1, storage, index, numOffset);
+
     }
 
 }
