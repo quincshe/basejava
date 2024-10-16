@@ -34,7 +34,7 @@ public abstract class AbstractArrayStorage implements Storage {
         } else if (size == STORAGE_LIMIT) {
             System.out.println("\nERROR: resume array is full");
         } else {
-            saveResume(r);
+            insertResume(index, r);
             size++;
         }
     }
@@ -53,7 +53,8 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (isExisting(index)) {
-            deleteResume(uuid);
+            extractResume(index);
+            storage[size-1] = null;
             size--;
         } else {
             System.out.println("\nDelete ERROR: resume with uuid \"" + uuid + "\" is missing");
@@ -63,6 +64,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
+
 
     public int size() {
         return size;
@@ -74,7 +76,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void saveResume(Resume r);
+    protected abstract void insertResume(int index, Resume r);
 
-    protected abstract void deleteResume(String uuid);
+    protected abstract void extractResume(int index);
 }
