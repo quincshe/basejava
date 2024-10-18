@@ -10,7 +10,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected static final int STORAGE_LIMIT = 10000;
 
-    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
 
@@ -19,7 +19,7 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume r) {
+    public final void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (isExisting(index)) {
             storage[index] = r;
@@ -28,7 +28,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void save(Resume r) {
+    public final void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (isExisting(index)) {
             throw new ExistStorageException(r.getUuid());
@@ -40,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (isExisting(index)) {
             return storage[index];
@@ -48,7 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
         throw new NotExistStorageException(uuid);
     }
 
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (isExisting(index)) {
             extractResume(index);
