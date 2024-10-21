@@ -47,13 +47,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResumeByIndex(int index) {
-        return storage[index];
+    protected Resume getResume(String uuid) {
+        return storage[getIndex(uuid)];
     }
 
     @Override
-    protected void removeResume(int index) {
-        extractResume(index);
+    protected void removeResume(String uuid) {
+        extractResume(getIndex(uuid));
         storage[size - 1] = null;
         size--;
     }

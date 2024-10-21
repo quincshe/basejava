@@ -39,13 +39,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResumeByIndex(int index) {
-        return storage.get(index);
+    protected Resume getResume(String uuid) {
+        return storage.get(getIndex(new Resume(uuid)));
     }
 
     @Override
-    protected void removeResume(int index) {
-        storage.remove(index);
+    protected void removeResume(String uuid) {
+        storage.remove(getIndex(new Resume(uuid)));
     }
 
 
