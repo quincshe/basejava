@@ -23,5 +23,4 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected void extractResume(int index) {
         storage[index] = storage[size - 1];
     }
-
 }
