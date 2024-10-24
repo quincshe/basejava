@@ -32,12 +32,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void resaveResume(Resume r) {
+    protected void doUpdate(Resume r) {
         storage[getIndex(r)] = r;
     }
 
     @Override
-    protected void addResume(Resume r) {
+    protected void doSave(Resume r) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage is full", r.getUuid());
         } else {
@@ -47,12 +47,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(String uuid) {
+    protected Resume doGet(String uuid) {
         return storage[getIndex(uuid)];
     }
 
     @Override
-    protected void removeResume(String uuid) {
+    protected void doDelete(String uuid) {
         extractResume(getIndex(uuid));
         storage[size - 1] = null;
         size--;
