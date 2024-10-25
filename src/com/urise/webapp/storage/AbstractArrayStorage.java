@@ -33,7 +33,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        storage[(int)searchKey] = r;
+        storage[(int) searchKey] = r;
     }
 
     @Override
@@ -41,14 +41,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage is full", r.getUuid());
         } else {
-            insertResume((int)searchKey, r);
+            insertResume((int) searchKey, r);
             size++;
         }
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage[(int)searchKey];
+        return storage[(int) searchKey];
     }
 
     @Override
