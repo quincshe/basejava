@@ -37,12 +37,12 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> result = getNotSortedList();
+        List<Resume> result = getCopyList();
         result.sort(STORAGE_COMPARATOR);
         return result;
     }
 
-    protected abstract List<Resume> getNotSortedList();
+    protected abstract List<Resume> getCopyList();
 
     protected abstract Object getSearchKey(String uuid);
 
