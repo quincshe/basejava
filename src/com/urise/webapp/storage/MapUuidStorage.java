@@ -16,21 +16,13 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> result = new ArrayList<>(storage.values());
-        result.sort(( t1, resume) -> {
-            int compare = t1.getFullName().compareTo(resume.getFullName());
-            if ( compare == 0){
-                compare = t1.getUuid().compareTo(resume.getUuid());
-            }
-            return compare;
-        });
-        return result;
+    public int size() {
+        return storage.size();
     }
 
     @Override
-    public int size() {
-        return storage.size();
+    protected List<Resume> getNotSortedList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

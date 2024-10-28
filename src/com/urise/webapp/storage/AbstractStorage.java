@@ -3,8 +3,13 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
+
+    private static final Comparator<Resume> STORAGE_COMPARATOR = Comparator.comparing(
+        Resume::getFullName).thenComparing(Resume::getUuid);
 
     @Override
     public void update(Resume r) {
@@ -30,6 +35,14 @@ public abstract class AbstractStorage implements Storage {
         doDelete(searchKey);
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> result = getNotSortedList();
+        result.sort(STORAGE_COMPARATOR);
+        return result;
+    }
+
+    protected abstract List<Resume> getNotSortedList();
 
     protected abstract Object getSearchKey(String uuid);
 
