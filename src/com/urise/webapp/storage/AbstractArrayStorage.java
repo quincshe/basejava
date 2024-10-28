@@ -3,7 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -70,16 +69,4 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void insertResume(int index, Resume r);
 
     protected abstract void extractResume(int index);
-
-    private static class StorageComparator implements Comparator<Resume> {
-
-        @Override
-        public int compare(Resume t1, Resume resume) {
-            int compare = t1.getFullName().compareTo(resume.getFullName());
-            if ( compare == 0){
-                compare = t1.getUuid().compareTo(resume.getUuid());
-            }
-            return compare;
-        }
-    }
 }
