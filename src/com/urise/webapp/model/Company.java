@@ -1,20 +1,25 @@
 package com.urise.webapp.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Company {
+public class Company
+    implements Comparable<Company>
+{
 
     private final String name;
     private final Set<Period> periods;
     private final String website;
+    private LocalDate lastDate;
 
     public Company(String name, String website) {
         this.name = name;
         periods = new TreeSet<>();
         this.website = website;
+        lastDate = LocalDate.MIN;
     }
 
     public String getName() {
@@ -28,9 +33,15 @@ public class Company {
     public String getWebsite() {
         return website;
     }
+    public LocalDate getLastDate(){
+        return lastDate;
+    }
 
     public void addPeriod(Period period) {
         periods.add(period);
+        if (lastDate.isBefore(period.getEnd())){
+            lastDate = period.getEnd();
+        }
 
     }
 
@@ -50,9 +61,14 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company: " + name + '\'' +
+        return name + '\'' +
             periods +
             ", \nwebsite='" + website + '\'' +
             '}';
+    }
+
+    @Override
+    public int compareTo(Company company) {
+        return -lastDate.compareTo(company.getLastDate());
     }
 }

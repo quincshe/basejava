@@ -3,34 +3,34 @@ package com.urise.webapp.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CompanySection extends Section {
-    private final List<Company> companyList;
+
+    private final Set<Company> companySet;
 
     public CompanySection(String name) {
         super(name);
-        companyList = new ArrayList<>();
+        companySet = new TreeSet<>();
     }
 
-    public List<Company> getCompanyList() {
-        return companyList;
+    public List<Company> getCompanySet() {
+        return new ArrayList<>(companySet);
     }
 
     public void addPeriod(String companyName, String website, Period period) {
-        Company company = new Company(companyName, website);
-        if (companyList.contains(company)) {
-            for (Company c : companyList) {
-                if (c.equals(company)) {
-                    c.addPeriod(period);
-                    break;
-                }
+        for (Company c : companySet) {
+            if (c.getName().equals(companyName)) {
+                c.addPeriod(period);
+                return;
             }
-
-        } else {
-            company.addPeriod(period);
-            companyList.add(company);
         }
+        Company company = new Company(companyName, website);
+        company.addPeriod(period);
+        companySet.add(company);
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -50,7 +50,7 @@ public class CompanySection extends Section {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        companyList.forEach((value)->  builder
+        companySet.forEach((value) -> builder
             .append(" - ")
             .append(value)
             .append("\n"));
