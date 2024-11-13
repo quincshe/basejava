@@ -21,15 +21,6 @@ public class Resume implements Comparable<Resume> {
 
     public Resume() {
         this.uuid = UUID.randomUUID().toString();
-//        for (ContactType c:ContactType.values()){
-//            contacts.put(c, "");
-//        }
-//        sections.put(SectionType.OBJECTIVE, new TextSection(SectionType.OBJECTIVE.getTitle()));
-//        sections.put(SectionType.PERSONAL, new TextSection(SectionType.PERSONAL.getTitle()));
-//        sections.put(SectionType.ACHIEVEMENT, new ListSection(SectionType.ACHIEVEMENT.getTitle()));
-//        sections.put(SectionType.QUALIFICATIONS, new ListSection(SectionType.QUALIFICATIONS.getTitle()));
-//        sections.put(SectionType.EXPERIENCE, new CompanySection(SectionType.EXPERIENCE.getTitle()));
-//        sections.put(SectionType.EDUCATION, new CompanySection(SectionType.EDUCATION.getTitle()));
     }
 
     public Resume(String fullName) {
@@ -95,15 +86,6 @@ public class Resume implements Comparable<Resume> {
             description);
     }
 
-    private void setCompanySection(SectionType sectionType, String companyName, String website,
-        LocalDate begin, LocalDate end, String position, String description) {
-        if (!sections.containsKey(sectionType)) {
-            sections.put(sectionType, new CompanySection(sectionType.getTitle()));
-        }
-        CompanySection section = (CompanySection) sections.get(sectionType);
-        section.addPeriod(companyName, website, new Period(begin, end, position, description));
-    }
-
     private void setTextSection(SectionType sectionType, String description) {
         TextSection section = new TextSection(sectionType.getTitle());
         section.setDescription(description);
@@ -117,6 +99,16 @@ public class Resume implements Comparable<Resume> {
         ListSection section = (ListSection) sections.get(sectionType);
         section.addDescription(description);
     }
+
+    private void setCompanySection(SectionType sectionType, String companyName, String website,
+        LocalDate begin, LocalDate end, String position, String description) {
+        if (!sections.containsKey(sectionType)) {
+            sections.put(sectionType, new CompanySection(sectionType.getTitle()));
+        }
+        CompanySection section = (CompanySection) sections.get(sectionType);
+        section.addPeriod(companyName, website, new Period(begin, end, position, description));
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -139,7 +131,7 @@ public class Resume implements Comparable<Resume> {
         StringBuilder builder = new StringBuilder();
         contacts.forEach(
             (key, value) -> builder
-                .append(key)
+                .append(key.getTitle())
                 .append(": ")
                 .append(value)
                 .append("\n"));
