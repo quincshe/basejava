@@ -74,7 +74,8 @@ public class ResumeTestData {
                 + "security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python\n scripting, "
                 + "Unix shell remote scripting via ssh tunnels, PL/Python");
         gregorResume.setEducation("Заочная физико-техническая школа при МФТИ",
-            "https://mipt.ru/", LocalDate.of(1984, 9, 1), LocalDate.of(1987, 6, 1), "", "Закончил с отличием");
+            "https://mipt.ru/", LocalDate.of(1984, 9, 1), LocalDate.of(1987, 6, 1), "",
+            "Закончил с отличием");
         gregorResume.setEducation("Санкт-Петербургский национальный исследовательский "
                 + "университет информационных технологий, механики и оптики",
             "http://www.ifmo.ru/", LocalDate.of(1987, 9, 1),
@@ -84,8 +85,39 @@ public class ResumeTestData {
             "http://www.ifmo.ru/", LocalDate.of(1993, 9, 1),
             LocalDate.of(1996, 7, 1), "Аспирантура (программист С, С++)", "");
         System.out.println(gregorResume);
+    }
 
-
+    public static Resume createDefaultResume(String uuid, String fullName) {
+        Resume defResume = new Resume(uuid, fullName);
+        defResume.setContact(ContactType.PHONE, "PHONE");
+        defResume.setContact(ContactType.SKYPE, "SKYPE");
+        defResume.setContact(ContactType.EMAIL, "EMAIL");
+        defResume.setContact(ContactType.LINKEDIN, "LINKEDIN");
+        defResume.setContact(ContactType.GITGUB, "GITGUB");
+        defResume.setContact(ContactType.STACKOWERFLOW, "STACKOWERFLOW");
+        defResume.setContact(ContactType.HOMEPAGE, "HOMEPAGE");
+        defResume.setObjective("Objective");
+        defResume.setPersonal("Personal");
+        LocalDate beginDate =  LocalDate.of(1983, 8, 26);
+        for (int i = 1; i < 5; i++) {
+            defResume.setAchievement(                 "Achievement" + i);
+            defResume.setQualifications(                "Qualifications" + i);
+            defResume.setExperience("Company" + i, "http://javaops.ru/",
+                beginDate.plusMonths((6-i)*i*3), beginDate.plusMonths((7-i)*i*3),
+                "Автор проекта №" + i,
+                "Создание проекта");
+            defResume.setExperience("Company" + i, "http://javaops.ru/",
+                beginDate.plusMonths((6-i)*i*5), beginDate.plusMonths((7-i)*i*5),
+                "Автор проекта №" + i,
+                "Создание проекта");
+            defResume.setEducation("Education" + i,
+                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*10), beginDate.plusMonths((7-i)*i*10), "",
+                "Закончил с отличием");
+            defResume.setEducation("Education" + i,
+                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*8), beginDate.plusMonths((7-i)*i*8), "",
+                "Закончил с отличием");
+                    }
+        return defResume;
     }
 
 }
