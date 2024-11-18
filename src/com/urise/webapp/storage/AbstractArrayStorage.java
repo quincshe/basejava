@@ -11,6 +11,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    protected abstract int getIndex(String uuid);
+
+    protected abstract void insertResume(int index, Resume r);
+
+    protected abstract void extractResume(int index);
+
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -34,7 +40,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     protected void doUpdate(Resume r, Integer searchKey) {
-        storage[ searchKey] = r;
+        storage[searchKey] = r;
     }
 
     @Override
@@ -49,24 +55,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     protected Resume doGet(Integer searchKey) {
-        return storage[(int) searchKey];
+        return storage[searchKey];
     }
 
     @Override
     protected void doDelete(Integer searchKey) {
-        extractResume((int) searchKey);
+        extractResume(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
     protected boolean isExist(Integer searchKey) {
-        return (int) searchKey >= 0;
+        return searchKey >= 0;
     }
 
-    protected abstract int getIndex(String uuid);
-
-    protected abstract void insertResume(int index, Resume r);
-
-    protected abstract void extractResume(int index);
 }

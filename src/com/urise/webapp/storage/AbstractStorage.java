@@ -11,6 +11,20 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
     private static final Comparator<Resume> STORAGE_COMPARATOR = Comparator.comparing(
         Resume::getFullName).thenComparing(Resume::getUuid);
 
+    protected abstract List<Resume> getCopyList();
+
+    protected abstract SearchKey getSearchKey(String uuid);
+
+    protected abstract void doUpdate(Resume r, SearchKey searchKey);
+
+    protected abstract void doSave(Resume r, SearchKey searchKey);
+
+    protected abstract Resume doGet(SearchKey searchKey);
+
+    protected abstract void doDelete(SearchKey searchKey);
+
+    protected abstract boolean isExist(SearchKey searchKey);
+
     @Override
     public void update(Resume r) {
         SearchKey searchKey = getExistingSearchKey(r.getUuid());
@@ -41,20 +55,6 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
         result.sort(STORAGE_COMPARATOR);
         return result;
     }
-
-    protected abstract List<Resume> getCopyList();
-
-    protected abstract SearchKey getSearchKey(String uuid);
-
-    protected abstract void doUpdate(Resume r, SearchKey searchKey);
-
-    protected abstract void doSave(Resume r, SearchKey searchKey);
-
-    protected abstract Resume doGet(SearchKey searchKey);
-
-    protected abstract void doDelete(SearchKey searchKey);
-
-    protected abstract boolean isExist(SearchKey searchKey);
 
     protected SearchKey getNotExistingSearchKey(String uuid) {
         SearchKey searchKey = getSearchKey(uuid);
