@@ -19,7 +19,6 @@ public class ObjectStreamFileStorage extends AbstractFileStorage {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         }
-
     }
 
     @Override

@@ -47,7 +47,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     public int size() {
         try {
-            return (int) Files.size(directory);
+            return (int)Files.list(directory).count();
         } catch (IOException e) {
             throw new StorageException("IO error(size)", null);
         }
@@ -55,7 +55,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(directory.toString() + uuid);
+        return Paths.get(directory.toString() + "/" + uuid);
     }
 
     @Override

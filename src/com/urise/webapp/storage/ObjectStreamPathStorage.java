@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-public class ObjectStreamPathStorage extends AbstractFileStorage {
+public class ObjectStreamPathStorage extends AbstractPathStorage {
 
     protected ObjectStreamPathStorage(String directory) {
         super(directory);
