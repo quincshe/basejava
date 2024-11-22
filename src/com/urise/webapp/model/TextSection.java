@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
+
 public class TextSection extends Section {
 
     private String description;

@@ -1,9 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Period implements Comparable<Period>{
+public class Period implements Comparable<Period>, Serializable {
 
     private final LocalDate begin;
     private final LocalDate end;

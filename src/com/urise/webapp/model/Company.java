@@ -1,5 +1,6 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +8,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Company
-    implements Comparable<Company>
-{
+    implements Comparable<Company>, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String name;
     private final Set<Period> periods;
@@ -33,13 +35,14 @@ public class Company
     public String getWebsite() {
         return website;
     }
-    public LocalDate getLastDate(){
+
+    public LocalDate getLastDate() {
         return lastDate;
     }
 
     public void addPeriod(Period period) {
         periods.add(period);
-        if (lastDate.isBefore(period.getEnd())){
+        if (lastDate.isBefore(period.getEnd())) {
             lastDate = period.getEnd();
         }
 

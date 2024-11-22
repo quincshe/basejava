@@ -1,6 +1,10 @@
 package com.urise.webapp.model;
 
-public abstract class Section {
+import java.io.Serializable;
+
+public abstract class Section implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String name;
 
@@ -8,7 +12,7 @@ public abstract class Section {
         this.name = name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 }

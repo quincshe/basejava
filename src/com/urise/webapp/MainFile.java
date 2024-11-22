@@ -16,7 +16,7 @@ public class MainFile {
 //            throw new RuntimeException("Error", e);
 //        }
 
-        File dir = new File("/home/quincshe/JAVAOPS/basejava/src");
+        File dir = new File("./src/com/urise/webapp");
 //        System.out.println(dir.isDirectory());
         readDirectory(dir, 0);
 
