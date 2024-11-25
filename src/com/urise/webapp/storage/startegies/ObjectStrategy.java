@@ -1,4 +1,4 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.startegies;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
@@ -8,26 +8,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-public class ObjectStreamPathStorage extends AbstractPathStorage {
-
-    protected ObjectStreamPathStorage(String directory) {
-        super(directory);
-    }
+public class ObjectStrategy implements Strategy {
 
     @Override
-    protected void doWrite(Resume r, OutputStream os) throws IOException {
+    public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         }
-
     }
 
     @Override
-    protected Resume doRead(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
-            throw new StorageException("IO error", null, e);
+            throw new StorageException("IO error(read)", null, e);
         }
     }
 }
