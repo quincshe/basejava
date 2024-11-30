@@ -28,28 +28,18 @@ public class PathStorage extends AbstractStorage<Path> {
             throw new IllegalArgumentException(dir + " is not directory");
         }
         if (!Files.isWritable(directory) || !Files.isReadable(directory)) {
-            throw new IllegalArgumentException(
-                dir + " is not readable/writable");
+            throw new IllegalArgumentException(dir + " is not readable/writable");
         }
-
     }
 
     @Override
     public void clear() {
-        try (Stream<Path> stream = Files.list(directory)){
-            stream.forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        getStream().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try (Stream<Path> stream = Files.list(directory)){
-            return (int) stream.count();
-        } catch (IOException e) {
-            throw new StorageException("IO error(size)", null);
-        }
+        return (int) getStream().count();
     }
 
     @Override
@@ -98,11 +88,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> getCopyList() {
         List<Resume> result = new ArrayList<>();
-        try (Stream<Path> stream = Files.list(directory)){
-            stream.forEach(path -> result.add(doGet(path)));
-        } catch (IOException e) {
-            throw new StorageException("IO error (getCopyList)", null, e);
-        }
+        getStream().forEach(path -> result.add(doGet(path)));
         return result;
     }
 
@@ -111,6 +97,14 @@ public class PathStorage extends AbstractStorage<Path> {
             Files.delete(path);
         } catch (IOException e) {
             throw new StorageException("IO error", path.toString());
+        }
+    }
+
+    private Stream<Path> getStream() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("IO error", null, e);
         }
     }
 }
