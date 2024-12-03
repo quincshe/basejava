@@ -1,6 +1,6 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.storage.startegies.ObjectStrategy;
+import com.urise.webapp.storage.strategies.ObjectStrategy;
 
 public class ObjectFileStorageTest extends AbstractStorageTest {
 

@@ -1,4 +1,4 @@
-package com.urise.webapp.storage.startegies;
+package com.urise.webapp.storage.strategies;
 
 import com.urise.webapp.model.Resume;
 import java.io.IOException;

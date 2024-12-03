@@ -1,6 +1,6 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.storage.startegies.XmlStrategy;
+import com.urise.webapp.storage.strategies.XmlStrategy;
 
 public class XmlPathStorageTest extends AbstractStorageTest {
 
