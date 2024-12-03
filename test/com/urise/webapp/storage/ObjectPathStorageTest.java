@@ -2,9 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.storage.startegies.ObjectStrategy;
 
-public class PathStorageTest extends AbstractStorageTest {
+public class ObjectPathStorageTest extends AbstractStorageTest {
 
-    public PathStorageTest() {
+    public ObjectPathStorageTest() {
         super(new PathStorage("/home/quincshe/JAVAOPS/basejava/storages", new ObjectStrategy()));
     }
 }

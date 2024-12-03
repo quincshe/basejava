@@ -8,7 +8,10 @@ import java.util.TreeSet;
 
 public class CompanySection extends Section {
 
-    private final Set<Company> companySet;
+    private Set<Company> companySet;
+
+    public CompanySection() {
+    }
 
     public CompanySection(String name) {
         super(name);
@@ -17,6 +20,10 @@ public class CompanySection extends Section {
 
     public List<Company> getCompanySet() {
         return new ArrayList<>(companySet);
+    }
+
+    public void setCompanySet(Set<Company> companySet) {
+        this.companySet = companySet;
     }
 
     public void addPeriod(String companyName, String website, Period period) {

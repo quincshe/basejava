@@ -4,22 +4,26 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Initial resume class
  */
+@XmlRootElement
 public class Resume implements Comparable<Resume>, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     // Unique identifier
-    private final String uuid;
+    private String uuid;
 
     private String fullName;
 
-    private final Map<ContactType, String> contacts = new LinkedHashMap<>();
+    private Map<ContactType, String> contacts = new LinkedHashMap<>();
 
-    private final Map<SectionType, Section> sections = new LinkedHashMap<>();
+    private Map<SectionType, Section> sections = new LinkedHashMap<>();
 
     public Resume() {
         this.uuid = UUID.randomUUID().toString();
@@ -48,7 +52,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return contacts;
     }
 
-    public String getContact(ContactType type){
+    public String getContact(ContactType type) {
         return contacts.get(type);
     }
 
@@ -56,12 +60,25 @@ public class Resume implements Comparable<Resume>, Serializable {
         return sections;
     }
 
-    public Section getSection(SectionType type){
+    public Section getSection(SectionType type) {
         return sections.get(type);
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public void setContacts(Map<ContactType, String> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void setSections(
+        Map<SectionType, Section> sections) {
+        this.sections = sections;
     }
 
     public void setContact(ContactType contactType, String contact) {
@@ -119,17 +136,15 @@ public class Resume implements Comparable<Resume>, Serializable {
         section.addPeriod(companyName, website, new Period(begin, end, position, description));
     }
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid);
+        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName,
+            resume.fullName) && Objects.equals(contacts, resume.contacts)
+            && Objects.equals(sections, resume.sections);
     }
 
     @Override

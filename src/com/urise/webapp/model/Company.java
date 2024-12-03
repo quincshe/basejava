@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,10 +13,13 @@ public class Company
 
     private static final long serialVersionUID = 1L;
 
-    private final String name;
-    private final Set<Period> periods;
-    private final String website;
+    private String name;
+    private Set<Period> periods;
+    private String website;
     private LocalDate lastDate;
+
+    public Company() {
+    }
 
     public Company(String name, String website) {
         this.name = name;
@@ -45,7 +49,6 @@ public class Company
         if (lastDate.isBefore(period.getEnd())) {
             lastDate = period.getEnd();
         }
-
     }
 
     @Override
@@ -53,13 +56,15 @@ public class Company
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        String companyName = ((Company) o).getName();
-        return name.equals(companyName);
+        Company company = (Company) o;
+        return Objects.equals(name, company.name) && Objects.equals(periods,
+            company.periods) && Objects.equals(website, company.website)
+            && Objects.equals(lastDate, company.lastDate);
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hash(name, periods, website, lastDate);
     }
 
     @Override

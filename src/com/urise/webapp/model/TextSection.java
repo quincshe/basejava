@@ -4,6 +4,9 @@ public class TextSection extends Section {
 
     private String description;
 
+    public TextSection() {
+    }
+
     protected TextSection(String name) {
         super(name);
     }

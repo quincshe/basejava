@@ -6,7 +6,10 @@ import java.util.Objects;
 
 public class ListSection extends Section {
 
-    private final List<String> descriptionList;
+    private List<String> descriptionList;
+
+    public ListSection() {
+    }
 
     public ListSection(String name) {
         super(name);
@@ -15,6 +18,10 @@ public class ListSection extends Section {
 
     public List<String> getSectionList() {
         return descriptionList;
+    }
+
+    public void setDescriptionList(List<String> descriptionList) {
+        this.descriptionList = descriptionList;
     }
 
     public void addDescription(String description) {
