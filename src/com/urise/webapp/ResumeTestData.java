@@ -96,27 +96,27 @@ public class ResumeTestData {
         defResume.setContact(ContactType.GITGUB, "GITGUB");
         defResume.setContact(ContactType.STACKOWERFLOW, "STACKOWERFLOW");
         defResume.setContact(ContactType.HOMEPAGE, "HOMEPAGE");
-        defResume.setObjective("Objective");
-        defResume.setPersonal("Personal");
-        LocalDate beginDate =  LocalDate.of(1983, 8, 26);
-        for (int i = 1; i < 5; i++) {
-            defResume.setAchievement(                 "Achievement" + i);
-            defResume.setQualifications(                "Qualifications" + i);
-            defResume.setExperience("Company" + i, "http://javaops.ru/",
-                beginDate.plusMonths((6-i)*i*3), beginDate.plusMonths((7-i)*i*3),
-                "Автор проекта №" + i,
-                "Создание проекта");
-            defResume.setExperience("Company" + i, "http://javaops.ru/",
-                beginDate.plusMonths((6-i)*i*5), beginDate.plusMonths((7-i)*i*5),
-                "Автор проекта №" + i,
-                "Создание проекта");
-            defResume.setEducation("Education" + i,
-                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*10), beginDate.plusMonths((7-i)*i*10), "",
-                "Закончил с отличием");
-            defResume.setEducation("Education" + i,
-                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*8), beginDate.plusMonths((7-i)*i*8), "",
-                "Закончил с отличием");
-                    }
+//        defResume.setObjective("Objective");
+//        defResume.setPersonal("Personal");
+////        LocalDate beginDate =  LocalDate.of(1983, 8, 26);
+//        for (int i = 1; i < 5; i++) {
+//            defResume.setAchievement("Achievement" + i);
+//            defResume.setQualifications("Qualifications" + i);
+////            defResume.setExperience("Company" + i, "http://javaops.ru/",
+////                beginDate.plusMonths((6-i)*i*3), beginDate.plusMonths((7-i)*i*3),
+////                "Автор проекта №" + i,
+////                "Создание проекта");
+////            defResume.setExperience("Company" + i, "http://javaops.ru/",
+////                beginDate.plusMonths((6-i)*i*5), beginDate.plusMonths((7-i)*i*5),
+////                "Автор проекта №" + i,
+////                "Создание проекта");
+////            defResume.setEducation("Education" + i,
+////                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*10), beginDate.plusMonths((7-i)*i*10), "",
+////                "Закончил с отличием");
+////            defResume.setEducation("Education" + i,
+////                "https://mipt.ru/", beginDate.plusMonths((6-i)*i*8), beginDate.plusMonths((7-i)*i*8), "",
+////                "Закончил с отличием");
+//        }
         return defResume;
     }
 
