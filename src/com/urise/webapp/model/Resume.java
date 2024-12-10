@@ -85,6 +85,23 @@ public class Resume implements Comparable<Resume>, Serializable {
         contacts.put(contactType, contact);
     }
 
+    public void setSection(SectionType sectionType,  Section section) {
+        switch (sectionType){
+            case PERSONAL:
+            case OBJECTIVE:
+                setTextSection(sectionType, ((TextSection)section).getDescription());
+                break;
+            case ACHIEVEMENT:
+                break;
+            case QUALIFICATIONS:
+                break;
+            case EXPERIENCE:
+                break;
+            case EDUCATION:
+                break;
+        }
+    }
+
     public void setObjective(String objective) {
         setTextSection(SectionType.OBJECTIVE, objective);
     }
@@ -187,4 +204,6 @@ public class Resume implements Comparable<Resume>, Serializable {
         int compare = fullName.compareTo(resume.fullName);
         return compare != 0 ? compare : uuid.compareTo(resume.uuid);
     }
+
+
 }

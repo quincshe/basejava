@@ -96,8 +96,8 @@ public class ResumeTestData {
         defResume.setContact(ContactType.GITGUB, "GITGUB");
         defResume.setContact(ContactType.STACKOWERFLOW, "STACKOWERFLOW");
         defResume.setContact(ContactType.HOMEPAGE, "HOMEPAGE");
-//        defResume.setObjective("Objective");
-//        defResume.setPersonal("Personal");
+        defResume.setObjective("ObjectiveObjectiveObjective");
+        defResume.setPersonal("PersonalPersonalPersonal");
 ////        LocalDate beginDate =  LocalDate.of(1983, 8, 26);
 //        for (int i = 1; i < 5; i++) {
 //            defResume.setAchievement("Achievement" + i);
