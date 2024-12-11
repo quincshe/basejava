@@ -108,7 +108,7 @@ public class DataStrategy implements Strategy {
                 for (int i=0; i< size;i++){
                     readCompany(dis,companySection);
                 }
-                break;
+                return companySection;
         }
         return null;
     }
