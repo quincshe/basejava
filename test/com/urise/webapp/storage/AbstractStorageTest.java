@@ -12,6 +12,8 @@ import org.junit.Test;
 
 public abstract class AbstractStorageTest {
 
+    protected static final String STORAGES_PATH = "/home/quincshe/JAVAOPS/basejava/storages";
+
     protected final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";

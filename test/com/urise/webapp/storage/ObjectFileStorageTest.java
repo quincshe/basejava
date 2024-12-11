@@ -5,6 +5,6 @@ import com.urise.webapp.storage.strategies.ObjectStrategy;
 public class ObjectFileStorageTest extends AbstractStorageTest {
 
     public ObjectFileStorageTest() {
-        super(new FileStorage("/home/quincshe/JAVAOPS/basejava/storages", new ObjectStrategy()));
+        super(new FileStorage(STORAGES_PATH, new ObjectStrategy()));
     }
 }
