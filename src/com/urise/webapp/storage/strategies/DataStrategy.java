@@ -20,29 +20,37 @@ import java.util.Map;
 
 public class DataStrategy implements Strategy {
 
+    private DataOutputStream dos;
+    private DataInputStream dis;
+
+    public DataStrategy() {
+    }
+
     @Override
-    public void doWrite(Resume r, OutputStream os) throws IOException {
-        try (DataOutputStream dos = new DataOutputStream(os)) {
-            dos.writeUTF(r.getUuid());
-            dos.writeUTF(r.getFullName());
-            Map<ContactType, String> contactMap = r.getContacts();
+    public void doWrite(Resume resume, OutputStream os) throws IOException {
+        try (DataOutputStream dataOutputStream = new DataOutputStream(os)) {
+            dos = dataOutputStream;
+            dos.writeUTF(resume.getUuid());
+            dos.writeUTF(resume.getFullName());
+            Map<ContactType, String> contactMap = resume.getContacts();
             dos.writeInt(contactMap.size());
             for (Map.Entry<ContactType, String> entry : contactMap.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
-            Map<SectionType, Section> sectionMap = r.getSections();
+            Map<SectionType, Section> sectionMap = resume.getSections();
             dos.writeInt(sectionMap.size());
             for (Map.Entry<SectionType, Section> entry : sectionMap.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
-                writeSection(dos, entry.getKey(), entry.getValue());
+                writeSection(entry.getKey(), entry.getValue());
             }
         }
     }
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
-        try (DataInputStream dis = new DataInputStream(is)) {
+        try (DataInputStream dataInputStream = new DataInputStream(is)) {
+            dis = dataInputStream;
             Resume resume = new Resume(dis.readUTF(), dis.readUTF());
             int size = dis.readInt();
             for (int i = 0; i < size; i++) {
@@ -51,13 +59,13 @@ public class DataStrategy implements Strategy {
             size = dis.readInt();
             for (int i = 0; i < size; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                resume.setSection(sectionType, readSection(dis, sectionType));
+                resume.setSection(sectionType, readSection(sectionType));
             }
             return resume;
         }
     }
 
-    private void writeSection(DataOutputStream dos, SectionType sectionType, Section section)
+    private void writeSection(SectionType sectionType, Section section)
         throws IOException {
         switch (sectionType) {
             case PERSONAL:
@@ -75,17 +83,15 @@ public class DataStrategy implements Strategy {
             case EXPERIENCE:
             case EDUCATION:
                 CompanySection companySection = (CompanySection) section;
-                int ggg = companySection.size();
-                System.out.println(ggg);
-                dos.writeInt(ggg);
+                dos.writeInt(companySection.size());
                 for (Company company : (companySection).getCompanyList()) {
-                    writeCompany(dos, company);
+                    writeCompany(company);
                 }
                 break;
         }
     }
 
-    private Section readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+    private Section readSection(SectionType sectionType) throws IOException {
         int size;
         switch (sectionType) {
             case PERSONAL:
@@ -105,45 +111,45 @@ public class DataStrategy implements Strategy {
             case EDUCATION:
                 CompanySection companySection = new CompanySection(sectionType.getTitle());
                 size = dis.readInt();
-                for (int i=0; i< size;i++){
-                    readCompany(dis,companySection);
+                for (int i = 0; i < size; i++) {
+                    readCompany(companySection);
                 }
                 return companySection;
         }
         return null;
     }
 
-    private void writeCompany(DataOutputStream dos, Company company) throws IOException {
+    private void writeCompany(Company company) throws IOException {
         for (Period period : company.getPeriods()) {
             dos.writeUTF(company.getName());
             dos.writeUTF(company.getWebsite());
-            writePeriod(dos, period);
+            writePeriod(period);
         }
     }
 
-    private void readCompany(DataInputStream dis, CompanySection companySection)
+    private void readCompany(CompanySection companySection)
         throws IOException {
-        companySection.addPeriod(dis.readUTF(), dis.readUTF(), readPeriod(dis));
+        companySection.addPeriod(dis.readUTF(), dis.readUTF(), readPeriod());
     }
 
-    private void writePeriod(DataOutputStream dos, Period period) throws IOException {
-        writeDate(dos, period.getBegin());
-        writeDate(dos, period.getEnd());
+    private void writePeriod(Period period) throws IOException {
+        writeDate(period.getBegin());
+        writeDate(period.getEnd());
         dos.writeUTF(period.getPosition());
         dos.writeUTF(period.getDescription());
     }
 
-    private Period readPeriod(DataInputStream dis) throws IOException {
-        return new Period(readDate(dis), readDate(dis), dis.readUTF(), dis.readUTF());
+    private Period readPeriod() throws IOException {
+        return new Period(readDate(), readDate(), dis.readUTF(), dis.readUTF());
     }
 
-    private void writeDate(DataOutputStream dos, LocalDate date) throws IOException {
+    private void writeDate(LocalDate date) throws IOException {
         dos.writeInt(date.getYear());
         dos.writeInt(date.getMonthValue());
         dos.writeInt(date.getDayOfMonth());
     }
 
-    private LocalDate readDate(DataInputStream dis) throws IOException {
+    private LocalDate readDate() throws IOException {
         return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
     }
 }
