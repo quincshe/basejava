@@ -18,7 +18,7 @@ public class CompanySection extends Section {
         companySet = new TreeSet<>();
     }
 
-    public List<Company> getCompanySet() {
+    public List<Company> getCompanyList() {
         return new ArrayList<>(companySet);
     }
 
@@ -38,6 +38,13 @@ public class CompanySection extends Section {
         companySet.add(company);
     }
 
+    public int size(){
+        int count = 0;
+        for (Company company:companySet){
+            count+= company.getPeriods().size();
+        }
+        return count;
+    }
 
     @Override
     public boolean equals(Object o) {

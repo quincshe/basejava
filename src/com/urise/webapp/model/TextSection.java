@@ -7,7 +7,7 @@ public class TextSection extends Section {
     public TextSection() {
     }
 
-    protected TextSection(String name) {
+    public TextSection(String name) {
         super(name);
     }
 
