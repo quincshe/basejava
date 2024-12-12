@@ -15,13 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class DataStrategy implements Strategy {
 
     private DataOutputStream dos;
     private DataInputStream dis;
+    private Resume resume;
 
     public DataStrategy() {
     }
@@ -32,18 +33,14 @@ public class DataStrategy implements Strategy {
             dos = dataOutputStream;
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
-            Map<ContactType, String> contactMap = resume.getContacts();
-            dos.writeInt(contactMap.size());
-            for (Map.Entry<ContactType, String> entry : contactMap.entrySet()) {
+            writeWithException(resume.getContacts().entrySet(), (entry) -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
-            Map<SectionType, Section> sectionMap = resume.getSections();
-            dos.writeInt(sectionMap.size());
-            for (Map.Entry<SectionType, Section> entry : sectionMap.entrySet()) {
+            });
+            writeWithException(resume.getSections().entrySet(), (entry) -> {
                 dos.writeUTF(entry.getKey().name());
                 writeSection(entry.getKey(), entry.getValue());
-            }
+            });
         }
     }
 
@@ -51,22 +48,34 @@ public class DataStrategy implements Strategy {
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dataInputStream = new DataInputStream(is)) {
             dis = dataInputStream;
-            Resume resume = new Resume(dis.readUTF(), dis.readUTF());
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                resume.setSection(sectionType, readSection(sectionType));
-            }
+            resume = new Resume(dis.readUTF(), dis.readUTF());
+            readWithException(
+                () -> resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readWithException(
+                () -> {
+                    SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                    resume.setSection(sectionType, readSection(sectionType));
+                });
             return resume;
         }
     }
 
-    private void writeSection(SectionType sectionType, Section section)
+    private <T> void writeWithException(Collection<T> collection, DataWriter<T> writer)
         throws IOException {
+        dos.writeInt(collection.size());
+        for (T t : collection) {
+            writer.write(t);
+        }
+    }
+
+    private <T> void readWithException(DataReader reader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            reader.read();
+        }
+    }
+
+    private void writeSection(SectionType sectionType, Section section) throws IOException {
         switch (sectionType) {
             case PERSONAL:
             case OBJECTIVE:
@@ -127,8 +136,7 @@ public class DataStrategy implements Strategy {
         }
     }
 
-    private void readCompany(CompanySection companySection)
-        throws IOException {
+    private void readCompany(CompanySection companySection) throws IOException {
         companySection.addPeriod(dis.readUTF(), dis.readUTF(), readPeriod());
     }
 
