@@ -68,7 +68,7 @@ public class DataStrategy implements Strategy {
         }
     }
 
-    private <T> void readWithException(DataReader reader) throws IOException {
+    private void readWithException(DataReader reader) throws IOException {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
             reader.read();
