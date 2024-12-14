@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 public class DataStrategy implements Strategy {
 
@@ -51,11 +50,10 @@ public class DataStrategy implements Strategy {
             resume = new Resume(dis.readUTF(), dis.readUTF());
             readWithException(
                 () -> resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
-            readWithException(
-                () -> {
-                    SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                    resume.setSection(sectionType, readSection(sectionType));
-                });
+            readWithException(() -> {
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                resume.setSection(sectionType, readSection(sectionType));
+            });
             return resume;
         }
     }
@@ -83,11 +81,8 @@ public class DataStrategy implements Strategy {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATIONS:
-                List<String> descriptionList = ((ListSection) section).getSectionList();
-                dos.writeInt(descriptionList.size());
-                for (String description : descriptionList) {
-                    dos.writeUTF(description);
-                }
+                writeWithException(((ListSection) section).getSectionList(),
+                    (description) -> dos.writeUTF(description));
                 break;
             case EXPERIENCE:
             case EDUCATION:
@@ -101,7 +96,6 @@ public class DataStrategy implements Strategy {
     }
 
     private Section readSection(SectionType sectionType) throws IOException {
-        int size;
         switch (sectionType) {
             case PERSONAL:
             case OBJECTIVE:
@@ -111,18 +105,12 @@ public class DataStrategy implements Strategy {
             case ACHIEVEMENT:
             case QUALIFICATIONS:
                 ListSection listSection = new ListSection(sectionType.getTitle());
-                size = dis.readInt();
-                for (int i = 0; i < size; i++) {
-                    listSection.addDescription(dis.readUTF());
-                }
+                readWithException(() -> listSection.addDescription(dis.readUTF()));
                 return listSection;
             case EXPERIENCE:
             case EDUCATION:
                 CompanySection companySection = new CompanySection(sectionType.getTitle());
-                size = dis.readInt();
-                for (int i = 0; i < size; i++) {
-                    readCompany(companySection);
-                }
+                readWithException(() -> readCompany(companySection));
                 return companySection;
         }
         return null;
